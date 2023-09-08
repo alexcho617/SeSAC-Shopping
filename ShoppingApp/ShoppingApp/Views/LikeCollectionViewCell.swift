@@ -1,14 +1,17 @@
 //
-//  SearchCollectionViewCell.swift
+//  LikeCollectionViewCell.swift
 //  ShoppingApp
 //
-//  Created by Alex Cho on 2023/09/07.
+//  Created by Alex Cho on 2023/09/08.
 //
 
 import UIKit
-import RealmSwift
-final class SearchCollectionViewCell: BaseCollectionViewCell {
-    var item: Item!
+
+final class LikeCollectionViewCell: BaseCollectionViewCell {
+    var productid: String?
+    
+    var disableLike: ((String) -> Void)?
+
     let image = {
         let view = UIImageView()
         view.backgroundColor = .systemBackground
@@ -51,18 +54,7 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
     }()
     
     @objc private func likeClicked() {
-        
-        let realmItem = RealmItem(title: item.title, link: item.link, image: item.image, lprice: item.lprice, mallName: item.mallName, productId: item.productId)
-        let isLiked = ItemRealmRepository.shared.checkProductExistsInRealmByProductId(realmItem.productId)
-        if isLiked {
-//            print("removed from db")
-            ItemRealmRepository.shared.delete(realmItem, target: realmItem.productId)
-            like.setImage(UIImage(systemName: "heart"), for: .normal)
-        } else {
-//            print("added to db")
-            ItemRealmRepository.shared.create(realmItem)
-            like.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        }
+        disableLike?(productid ?? "")
     }
 
     override func setView() {
@@ -104,4 +96,5 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
             make.trailing.bottom.equalTo(image).inset(DesignSystem.defaultPadding)
         }
     }
+
 }

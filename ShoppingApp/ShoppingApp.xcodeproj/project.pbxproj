@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		57351C4F2AAA9CDE009A7116 /* NaverAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57351C4E2AAA9CDE009A7116 /* NaverAPIManager.swift */; };
+		57351C552AAAA2C6009A7116 /* Shop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57351C542AAAA2C6009A7116 /* Shop.swift */; };
+		57351C592AAB0447009A7116 /* ItemRealmRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57351C582AAB0447009A7116 /* ItemRealmRepository.swift */; };
+		57351C5B2AAB16FF009A7116 /* RealmItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57351C5A2AAB16FF009A7116 /* RealmItem.swift */; };
+		57351C5D2AAB31BC009A7116 /* HeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57351C5C2AAB31BC009A7116 /* HeaderCollectionReusableView.swift */; };
+		57351C5F2AAB6255009A7116 /* LikeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57351C5E2AAB6255009A7116 /* LikeViewController.swift */; };
+		57351C612AAB6B99009A7116 /* LikeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57351C602AAB6B99009A7116 /* LikeCollectionViewCell.swift */; };
+		57351C632AAB7CF1009A7116 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57351C622AAB7CF1009A7116 /* DetailViewController.swift */; };
 		57C6CBDA2AAA06C90076D430 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C6CBD92AAA06C90076D430 /* AppDelegate.swift */; };
 		57C6CBDC2AAA06C90076D430 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C6CBDB2AAA06C90076D430 /* SceneDelegate.swift */; };
 		57C6CBDE2AAA06C90076D430 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C6CBDD2AAA06C90076D430 /* SearchViewController.swift */; };
@@ -29,6 +37,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		57351C4E2AAA9CDE009A7116 /* NaverAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverAPIManager.swift; sourceTree = "<group>"; };
+		57351C542AAAA2C6009A7116 /* Shop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shop.swift; sourceTree = "<group>"; };
+		57351C582AAB0447009A7116 /* ItemRealmRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemRealmRepository.swift; sourceTree = "<group>"; };
+		57351C5A2AAB16FF009A7116 /* RealmItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmItem.swift; sourceTree = "<group>"; };
+		57351C5C2AAB31BC009A7116 /* HeaderCollectionReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		57351C5E2AAB6255009A7116 /* LikeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeViewController.swift; sourceTree = "<group>"; };
+		57351C602AAB6B99009A7116 /* LikeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCollectionViewCell.swift; sourceTree = "<group>"; };
+		57351C622AAB7CF1009A7116 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		57C6CBD62AAA06C90076D430 /* ShoppingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoppingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57C6CBD92AAA06C90076D430 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57C6CBDB2AAA06C90076D430 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +79,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		57351C532AAAA2B8009A7116 /* Realm */ = {
+			isa = PBXGroup;
+			children = (
+				57351C582AAB0447009A7116 /* ItemRealmRepository.swift */,
+				57351C5A2AAB16FF009A7116 /* RealmItem.swift */,
+			);
+			path = Realm;
+			sourceTree = "<group>";
+		};
 		57C6CBCD2AAA06C90076D430 = {
 			isa = PBXGroup;
 			children = (
@@ -82,6 +107,7 @@
 		57C6CBD82AAA06C90076D430 /* ShoppingApp */ = {
 			isa = PBXGroup;
 			children = (
+				57351C532AAAA2B8009A7116 /* Realm */,
 				57C6CBD92AAA06C90076D430 /* AppDelegate.swift */,
 				57C6CBDB2AAA06C90076D430 /* SceneDelegate.swift */,
 				57C6CC062AAA0DEA0076D430 /* Base */,
@@ -99,7 +125,9 @@
 		57C6CBED2AAA08080076D430 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				57351C5E2AAB6255009A7116 /* LikeViewController.swift */,
 				57C6CBDD2AAA06C90076D430 /* SearchViewController.swift */,
+				57351C622AAB7CF1009A7116 /* DetailViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -109,6 +137,8 @@
 			children = (
 				57C6CBEF2AAA083E0076D430 /* SearchView.swift */,
 				57C6CC102AAA15800076D430 /* SearchCollectionViewCell.swift */,
+				57351C602AAB6B99009A7116 /* LikeCollectionViewCell.swift */,
+				57351C5C2AAB31BC009A7116 /* HeaderCollectionReusableView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -116,8 +146,10 @@
 		57C6CBF12AAA0AFD0076D430 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				57351C542AAAA2C6009A7116 /* Shop.swift */,
 				57C6CBF42AAA0B490076D430 /* APIKey.swift */,
 				57C6CBF62AAA0BE10076D430 /* HeaderEnum.swift */,
+				57351C4E2AAA9CDE009A7116 /* NaverAPIManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -226,15 +258,23 @@
 			files = (
 				57C6CC132AAA16C40076D430 /* DesignSystem.swift in Sources */,
 				57C6CC0F2AAA11180076D430 /* ViewTitles.swift in Sources */,
+				57351C592AAB0447009A7116 /* ItemRealmRepository.swift in Sources */,
 				57C6CBF02AAA083E0076D430 /* SearchView.swift in Sources */,
 				57C6CC112AAA15800076D430 /* SearchCollectionViewCell.swift in Sources */,
 				57C6CBDE2AAA06C90076D430 /* SearchViewController.swift in Sources */,
 				57C6CC0C2AAA0EEA0076D430 /* BaseCollectionViewCell.swift in Sources */,
+				57351C632AAB7CF1009A7116 /* DetailViewController.swift in Sources */,
+				57351C552AAAA2C6009A7116 /* Shop.swift in Sources */,
 				57C6CBDA2AAA06C90076D430 /* AppDelegate.swift in Sources */,
 				57C6CBF72AAA0BE10076D430 /* HeaderEnum.swift in Sources */,
+				57351C5B2AAB16FF009A7116 /* RealmItem.swift in Sources */,
+				57351C5F2AAB6255009A7116 /* LikeViewController.swift in Sources */,
 				57C6CBDC2AAA06C90076D430 /* SceneDelegate.swift in Sources */,
 				57C6CC082AAA0DF70076D430 /* BaseViewController.swift in Sources */,
+				57351C5D2AAB31BC009A7116 /* HeaderCollectionReusableView.swift in Sources */,
+				57351C4F2AAA9CDE009A7116 /* NaverAPIManager.swift in Sources */,
 				57C6CBF52AAA0B490076D430 /* APIKey.swift in Sources */,
+				57351C612AAB6B99009A7116 /* LikeCollectionViewCell.swift in Sources */,
 				57C6CC0A2AAA0E610076D430 /* BaseView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

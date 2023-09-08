@@ -12,6 +12,16 @@ final class SearchView: BaseView{
     let titleLabel = {
         let view = UILabel()
         view.text = ViewTitles.search.rawValue
+        view.font = .boldSystemFont(ofSize: 18)
+        view.textAlignment = .center
+        return view
+    }()
+    
+    let placeholderLabel = {
+        let view = UILabel()
+        view.text = "상품을 검색하세요"
+        view.textColor = .secondaryLabel
+        view.font = .boldSystemFont(ofSize: 18)
         view.textAlignment = .center
         return view
     }()
@@ -22,12 +32,7 @@ final class SearchView: BaseView{
         return view
     }()
     
-    let filterButton1 = {
-        let view = UIButton()
-        view.setTitle("정확도", for: .normal)
-        view.backgroundColor = .systemGray
-        return view
-    }()
+    
     
     let collectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -36,6 +41,12 @@ final class SearchView: BaseView{
         layout.itemSize = CGSize(width: DesignSystem.collectionViewItemWidth, height: DesignSystem.collectionViewItemHeight)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        
+        view.register(
+            HeaderCollectionReusableView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
+            withReuseIdentifier:HeaderCollectionReusableView.id
+        )
         return view
     }()
     
@@ -43,29 +54,31 @@ final class SearchView: BaseView{
         super.setView()
         addSubview(titleLabel)
         addSubview(searchBar)
-        addSubview(filterButton1)
         addSubview(collectionView)
+        addSubview(placeholderLabel)
+
     }
     
     override func setConstraints() {
         super.setConstraints()
         titleLabel.snp.makeConstraints { make in
             make.top.horizontalEdges.equalTo(safeAreaLayoutGuide)
+            
         }
         searchBar.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom)
+            make.top.equalTo(titleLabel.snp.bottom).offset(DesignSystem.defaultPadding)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide)
         }
-        filterButton1.snp.makeConstraints { make in
-            make.top.equalTo(searchBar.snp.bottom).offset(DesignSystem.defaultPadding)
-            make.leading.equalTo(safeAreaLayoutGuide).inset(DesignSystem.defaultPadding)
-            make.width.equalTo(50)
-            make.height.equalTo(30)
-        }
+        
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(filterButton1.snp.bottom).offset(DesignSystem.defaultPadding)
+            make.top.equalTo(searchBar.snp.bottom)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(DesignSystem.defaultPadding)
             make.bottom.equalTo(safeAreaLayoutGuide)
+        }
+        
+        placeholderLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(searchBar.snp.bottom).offset(DesignSystem.defaultPadding)
         }
     }
 }
