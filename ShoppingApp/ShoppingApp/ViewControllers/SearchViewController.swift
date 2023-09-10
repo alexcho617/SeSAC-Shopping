@@ -12,9 +12,11 @@ final class SearchViewController: BaseViewController {
     private let searchView = SearchView()
     private var didSearch = false
     private var resetFilterFlag = false
+    private var isEndOfSearch = false
     private var selectedFilter: SortEnum = .similarity{
         didSet{
             callRequest(searchView.searchBar.text!, sortby: selectedFilter)
+            print("DEBUG 2")
         }
     }
     var shop: Shop?
@@ -35,6 +37,7 @@ final class SearchViewController: BaseViewController {
     override func loadView() {
         searchView.collectionView.delegate = self
         searchView.collectionView.dataSource = self
+//        searchView.collectionView.prefetchDataSource = self
         searchView.searchBar.delegate = self
         self.view = searchView
     }
@@ -45,10 +48,15 @@ final class SearchViewController: BaseViewController {
     
     private func callRequest(_ query: String, sortby: SortEnum){
         NaverAPIManager.shared.fetch(query:query , sortby: sortby) { data in
-            self.shop = data
-            self.didSearch = true
-            self.searchView.placeholderLabel.isHidden = true
+            if self.shop == nil{
+                self.shop = data
+                self.didSearch = true
+                self.searchView.placeholderLabel.isHidden = true
+            }else{
+                self.shop?.items.append(contentsOf: data.items)
+            }
             self.searchView.collectionView.reloadData()
+
         }
     }
     
@@ -56,7 +64,10 @@ final class SearchViewController: BaseViewController {
 
 extension SearchViewController: UISearchBarDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        //Default is my similarity.
+        if shop != nil{
+            searchView.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+        }
+        shop = nil
         callRequest(searchBar.text!,sortby: .similarity)
         if selectedFilter != .similarity{
             resetFilterFlag.toggle()
@@ -88,10 +99,13 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         if resetFilterFlag == true{
             header.segmentedControl.selectedSegmentIndex = 0
             resetFilterFlag.toggle()
+            collectionView.reloadData()
         }
         //closure
         header.segmentControlValueChangedHandler = { [self] filter in
+            self.shop = nil
             self.selectedFilter = filter
+            print("DEBUG 1")
         }
         return header
     }
@@ -114,16 +128,38 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SearchCollectionViewCell
         guard let data = shop?.items[indexPath.row] else {return cell}
-        cell.image.kf.setImage(with: URL(string: data.image))
+        
+        let processor = DownsamplingImageProcessor(size: CGSize(width: 100, height: 100))
+        cell.image.kf.indicatorType = .activity
+        cell.image.kf.setImage(
+            with: URL(string: data.image),
+            placeholder: UIImage(named: "photo"),
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+            ])
+//        {
+//            result in
+//            switch result {
+//            case .success(let value):
+//                print("Task done for: \(value.source.url?.absoluteString ?? "")")
+//            case .failure(let error):
+//                print("Job failed: \(error.localizedDescription)")
+//            }
+//        }
+        ///
+        
         cell.seller.text = "[\(data.mallName)]"
         cell.title.text = data.title.removingHTMLTags()
         cell.price.text = data.lprice
         cell.item = data
         if ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) == true{
-//            print("Use FILL", data.productId)
+            //            print("Use FILL", data.productId)
             cell.like.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }else if ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) == false{
-//            print("Use Empty", data.productId)
+            //            print("Use Empty", data.productId)
             cell.like.setImage(UIImage(systemName: "heart"), for: .normal)
         }
         return cell

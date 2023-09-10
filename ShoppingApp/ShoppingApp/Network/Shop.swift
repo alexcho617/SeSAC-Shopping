@@ -10,7 +10,7 @@ import Foundation
 class Shop: Codable {
     let lastBuildDate: String?
     let total, start, display: Int
-    let items: [Item]
+    var items: [Item]
     
     enum CodingKeys: String, CodingKey{
         case lastBuildDate,total,start,display,items
