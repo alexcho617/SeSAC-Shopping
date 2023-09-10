@@ -14,7 +14,7 @@ class HeaderCollectionReusableView: UICollectionReusableView {
     var segmentControlValueChangedHandler: ((SortEnum) -> Void)?
     
     lazy var segmentedControl: UISegmentedControl = {
-        let array: [String] = ["정확도", "날짜순", "가격높은순","가격낮은순"]
+        let array: [String] = ["정확도순", "날짜순", "가격높은순","가격낮은순"]
         let view = UISegmentedControl(items: array)
         view.selectedSegmentIndex = 0
         view.addTarget(self, action: #selector(segmentChanged(to:)), for: UIControl.Event.valueChanged)

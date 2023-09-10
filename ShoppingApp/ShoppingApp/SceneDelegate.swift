@@ -26,10 +26,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let items = tabBarController.tabBar.items{
             items[0].image = UIImage(systemName: "magnifyingglass")
-            items[0].title = "검색"
+            items[0].title = "쇼핑 검색"
+            
             
             items[1].image = UIImage(systemName: "heart")
-            items[1].title = "좋아요"
+            items[1].title = "좋아요 목록"
         }
         
         window?.rootViewController = tabBarController

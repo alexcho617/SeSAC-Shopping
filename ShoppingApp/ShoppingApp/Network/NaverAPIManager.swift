@@ -12,11 +12,11 @@ import Alamofire
 
 class NaverAPIManager{
     static let shared = NaverAPIManager()
+    let baseUrl = "https://openapi.naver.com/v1/search/shop.json"
+    let linkUrl = "https://msearch.shopping.naver.com/product/"
     private init(){}
- 
 
     func fetch(query: String, sortby: SortEnum, completionHandler: @escaping (Shop) -> ()) {
-        let baseUrl = "https://openapi.naver.com/v1/search/shop.json"
         
         let headers: HTTPHeaders = [
             Headers.ClientID.rawValue: APIKey.NaverClientID.rawValue,

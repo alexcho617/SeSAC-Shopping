@@ -12,13 +12,13 @@ import RealmSwift
 class LikeViewController: BaseViewController {
     var likeTable: Results<RealmItem>!
 
-    let titleLabel = {
-        let view = UILabel()
-        view.text = ViewTitles.likes.rawValue
-        view.font = .boldSystemFont(ofSize: 18)
-        view.textAlignment = .center
-        return view
-    }()
+//    let titleLabel = {
+//        let view = UILabel()
+//        view.text = ViewTitles.likes.rawValue
+//        view.font = .boldSystemFont(ofSize: 18)
+//        view.textAlignment = .center
+//        return view
+//    }()
     
     let searchBar = {
         let view = UISearchBar()
@@ -52,7 +52,7 @@ class LikeViewController: BaseViewController {
     override func setView() {
         super.setView()
         title = "좋아요"
-        view.addSubview(titleLabel)
+//        view.addSubview(titleLabel)
         view.addSubview(searchBar)
         view.addSubview(collectionView)
         collectionView.dataSource = self
@@ -63,13 +63,13 @@ class LikeViewController: BaseViewController {
     }
     override func setConstraints() {
         super.setConstraints()
-        titleLabel.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-        }
+//        titleLabel.snp.makeConstraints { make in
+//            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+//        }
         
         searchBar.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(DesignSystem.defaultPadding)
-            make.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
+//            make.top.equalTo(titleLabel.snp.bottom).offset(DesignSystem.defaultPadding)
+            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(searchBar.snp.bottom)
@@ -137,9 +137,11 @@ extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     //TODO: Detail 화면
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(#function, indexPath.row)
-        
+        let item = likeTable[indexPath.row]
         let vc = DetailViewController()
-        vc.title = likeTable[indexPath.row].title.removingHTMLTags()
+        vc.title = item.title.removingHTMLTags()
+        vc.id = item.productId
+        vc.urlString = NaverAPIManager.shared.linkUrl+item.productId
         navigationController?.pushViewController(vc, animated: true)
     }
 }

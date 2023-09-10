@@ -9,13 +9,13 @@ import UIKit
 import SnapKit
 final class SearchView: BaseView{
     
-    let titleLabel = {
-        let view = UILabel()
-        view.text = ViewTitles.search.rawValue
-        view.font = .boldSystemFont(ofSize: 18)
-        view.textAlignment = .center
-        return view
-    }()
+//    let titleLabel = {
+//        let view = UILabel()
+//        view.text = ViewTitles.search.rawValue
+//        view.font = .boldSystemFont(ofSize: 18)
+//        view.textAlignment = .center
+//        return view
+//    }()
     
     let placeholderLabel = {
         let view = UILabel()
@@ -52,7 +52,7 @@ final class SearchView: BaseView{
     
     override func setView() {
         super.setView()
-        addSubview(titleLabel)
+//        addSubview(titleLabel)
         addSubview(searchBar)
         addSubview(collectionView)
         addSubview(placeholderLabel)
@@ -61,13 +61,13 @@ final class SearchView: BaseView{
     
     override func setConstraints() {
         super.setConstraints()
-        titleLabel.snp.makeConstraints { make in
-            make.top.horizontalEdges.equalTo(safeAreaLayoutGuide)
-            
-        }
+//        titleLabel.snp.makeConstraints { make in
+//            make.top.horizontalEdges.equalTo(safeAreaLayoutGuide)
+//
+//        }
         searchBar.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(DesignSystem.defaultPadding)
-            make.horizontalEdges.equalTo(safeAreaLayoutGuide)
+//            make.top.equalTo(titleLabel.snp.bottom).offset(DesignSystem.defaultPadding)
+            make.top.horizontalEdges.equalTo(safeAreaLayoutGuide)
         }
         
         collectionView.snp.makeConstraints { make in

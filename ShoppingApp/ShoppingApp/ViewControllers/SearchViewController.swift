@@ -23,7 +23,6 @@ final class SearchViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //TODO: Delete Titlelabels and use navigation controller title
         title = "쇼핑 검색"
         ItemRealmRepository.shared.realmURL()
     }
@@ -102,11 +101,14 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     //TODO: Detail 화면
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(#function, indexPath.row)
-        let vc = DetailViewController()
-        vc.title = shop?.items[indexPath.row].title.removingHTMLTags()
-        navigationController?.pushViewController(vc, animated: true)
         
+        print(#function, indexPath.row)
+        guard let item = shop?.items[indexPath.row] else {return}
+        let vc = DetailViewController()
+        vc.title = item.title.removingHTMLTags()
+        vc.id = item.productId
+        vc.urlString = NaverAPIManager.shared.linkUrl+item.productId
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
