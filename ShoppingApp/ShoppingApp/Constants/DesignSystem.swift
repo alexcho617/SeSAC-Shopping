@@ -13,4 +13,5 @@ struct DesignSystem{
         return collectionViewItemWidth * 1.5
     }
     static let defaultPadding: CGFloat = 8
+    static let cellSize = CGSize(width: 100, height: 100)
 }

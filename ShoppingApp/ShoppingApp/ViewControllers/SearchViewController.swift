@@ -16,7 +16,6 @@ final class SearchViewController: BaseViewController {
     private var selectedFilter: SortEnum = .similarity{
         didSet{
             callRequest(searchView.searchBar.text!, sortby: selectedFilter)
-            print("DEBUG 2")
         }
     }
     var shop: Shop?
@@ -24,7 +23,6 @@ final class SearchViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         title = "쇼핑 검색"
         ItemRealmRepository.shared.realmURL()
     }
@@ -37,7 +35,7 @@ final class SearchViewController: BaseViewController {
     override func loadView() {
         searchView.collectionView.delegate = self
         searchView.collectionView.dataSource = self
-//        searchView.collectionView.prefetchDataSource = self
+        searchView.collectionView.prefetchDataSource = self
         searchView.searchBar.delegate = self
         self.view = searchView
     }
@@ -56,7 +54,7 @@ final class SearchViewController: BaseViewController {
                 self.shop?.items.append(contentsOf: data.items)
             }
             self.searchView.collectionView.reloadData()
-
+            
         }
     }
     
@@ -105,7 +103,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         header.segmentControlValueChangedHandler = { [self] filter in
             self.shop = nil
             self.selectedFilter = filter
-            print("DEBUG 1")
         }
         return header
     }
@@ -113,7 +110,6 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return shop?.items.count ?? 0
     }
-    //TODO: Detail 화면
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         print(#function, indexPath.row)
@@ -122,6 +118,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         vc.title = item.title.removingHTMLTags()
         vc.id = item.productId
         vc.urlString = NaverAPIManager.shared.linkUrl+item.productId
+        vc.item = item
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -129,7 +126,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SearchCollectionViewCell
         guard let data = shop?.items[indexPath.row] else {return cell}
         
-        let processor = DownsamplingImageProcessor(size: CGSize(width: 100, height: 100))
+        let processor = DownsamplingImageProcessor(size: DesignSystem.cellSize)
         cell.image.kf.indicatorType = .activity
         cell.image.kf.setImage(
             with: URL(string: data.image),
@@ -140,38 +137,33 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
                 .transition(.fade(1)),
                 .cacheOriginalImage
             ])
-//        {
-//            result in
-//            switch result {
-//            case .success(let value):
-//                print("Task done for: \(value.source.url?.absoluteString ?? "")")
-//            case .failure(let error):
-//                print("Job failed: \(error.localizedDescription)")
-//            }
-//        }
-        ///
         
         cell.seller.text = "[\(data.mallName)]"
         cell.title.text = data.title.removingHTMLTags()
         cell.price.text = data.lprice
         cell.item = data
         if ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) == true{
-            //            print("Use FILL", data.productId)
             cell.like.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }else if ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) == false{
-            //            print("Use Empty", data.productId)
             cell.like.setImage(UIImage(systemName: "heart"), for: .normal)
         }
         return cell
     }
 }
-//TODO: Pagenation
-//extension SearchViewController: UICollectionViewDataSourcePrefetching{
-//    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
-//
-//    }
-//}
 
+extension SearchViewController: UICollectionViewDataSourcePrefetching{
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+        for indexPath in indexPaths {
+            let row = indexPath.row
+            guard shop != nil else {return}
+            let count = shop!.items.count
+            if  count - 1 == row {
+                print(#function, count)
+                callRequest(searchView.searchBar.text!, sortby: selectedFilter)
+            }
+        }
+    }
+}
 
 //TODO: 가격에 000단위로 쉼표 표기
 extension String {

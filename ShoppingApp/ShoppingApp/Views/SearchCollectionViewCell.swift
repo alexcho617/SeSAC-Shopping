@@ -51,12 +51,11 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
     }()
     
     @objc private func likeClicked() {
-        
         let realmItem = RealmItem(title: item.title, link: item.link, image: item.image, lprice: item.lprice, mallName: item.mallName, productId: item.productId)
         let isLiked = ItemRealmRepository.shared.checkProductExistsInRealmByProductId(realmItem.productId)
         if isLiked {
 //            print("removed from db")
-            ItemRealmRepository.shared.delete(realmItem, target: realmItem.productId)
+            ItemRealmRepository.shared.delete(targetProductId: realmItem.productId)
             like.setImage(UIImage(systemName: "heart"), for: .normal)
         } else {
 //            print("added to db")

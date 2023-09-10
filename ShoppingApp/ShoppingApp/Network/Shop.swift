@@ -26,6 +26,14 @@ class Item: Codable {
     var mallName: String
     var productId: String
     
+    init(title: String, link: String, image: String, lprice: String, mallName: String, productId: String) {
+        self.title = title
+        self.link = link
+        self.image = image
+        self.lprice = lprice
+        self.mallName = mallName
+        self.productId = productId
+    }
     enum CodingKeys: String, CodingKey {
         case title, link, image, lprice, mallName, productId
     }

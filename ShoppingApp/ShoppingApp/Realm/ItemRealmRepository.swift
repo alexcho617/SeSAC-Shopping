@@ -21,7 +21,13 @@ class ItemRealmRepository: RealmRepository {
     static let shared = ItemRealmRepository()
     
     func fetch() -> Results<RealmItem> {
-        return realm.objects(RealmItem.self)
+        return realm.objects(RealmItem.self).sorted(byKeyPath: "_id",ascending: false)
+    }
+    
+    func fetchById(id: String) -> Results<RealmItem> {
+        return realm.objects(RealmItem.self).where {
+            return $0.productId == id
+        }
     }
     
     func filteredFetch(with query: String) -> Results<RealmItem>{
@@ -39,10 +45,10 @@ class ItemRealmRepository: RealmRepository {
             print(error)
         }
     }
-    
-    func delete(_ item: RealmItem, target: String) {
+    func delete(targetProductId: String) {
+//    func delete(_ item: RealmItem, target: String) {
         let item = fetch().where{
-            $0.productId == target
+            $0.productId == targetProductId
         }
         for i in item{
             try! realm.write {

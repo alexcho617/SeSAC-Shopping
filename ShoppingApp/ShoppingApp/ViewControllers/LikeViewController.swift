@@ -12,14 +12,6 @@ import RealmSwift
 class LikeViewController: BaseViewController {
     var likeTable: Results<RealmItem>!
 
-//    let titleLabel = {
-//        let view = UILabel()
-//        view.text = ViewTitles.likes.rawValue
-//        view.font = .boldSystemFont(ofSize: 18)
-//        view.textAlignment = .center
-//        return view
-//    }()
-    
     let searchBar = {
         let view = UISearchBar()
         view.showsCancelButton = true
@@ -39,20 +31,16 @@ class LikeViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "좋아요 목록"
-        
-        //TODO: 기본 정렬에서 reverse만 시키면 될듯
         likeTable = ItemRealmRepository.shared.fetch()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        print(#function)
         collectionView.reloadData()
     }
     override func setView() {
         super.setView()
         title = "좋아요"
-//        view.addSubview(titleLabel)
         view.addSubview(searchBar)
         view.addSubview(collectionView)
         collectionView.dataSource = self
@@ -63,12 +51,8 @@ class LikeViewController: BaseViewController {
     }
     override func setConstraints() {
         super.setConstraints()
-//        titleLabel.snp.makeConstraints { make in
-//            make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
-//        }
         
         searchBar.snp.makeConstraints { make in
-//            make.top.equalTo(titleLabel.snp.bottom).offset(DesignSystem.defaultPadding)
             make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
         collectionView.snp.makeConstraints { make in
@@ -116,7 +100,17 @@ extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "likeCell", for: indexPath) as! LikeCollectionViewCell
         let data = likeTable[indexPath.row]
-        cell.image.kf.setImage(with: URL(string: data.image))
+        let processor = DownsamplingImageProcessor(size: DesignSystem.cellSize)
+        cell.image.kf.indicatorType = .activity
+        cell.image.kf.setImage(
+            with: URL(string: data.image),
+            placeholder: UIImage(named: "photo"),
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+            ])
         cell.seller.text = "[\(data.mallName)]"
         cell.title.text = data.title.removingHTMLTags()
         cell.price.text = data.lprice
@@ -128,13 +122,12 @@ extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         
         cell.disableLike = { productId in
-            ItemRealmRepository.shared.delete(data, target: productId)
+            ItemRealmRepository.shared.delete(targetProductId: productId)
             collectionView.reloadData()
         }
         return cell
     }
     
-    //TODO: Detail 화면
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(#function, indexPath.row)
         let item = likeTable[indexPath.row]
@@ -142,6 +135,7 @@ extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         vc.title = item.title.removingHTMLTags()
         vc.id = item.productId
         vc.urlString = NaverAPIManager.shared.linkUrl+item.productId
+        vc.item = Item(title: item.title, link: item.link, image: item.image, lprice: item.lprice, mallName: item.mallName, productId: item.productId)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

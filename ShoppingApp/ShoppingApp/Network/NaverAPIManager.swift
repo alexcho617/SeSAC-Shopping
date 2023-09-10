@@ -33,7 +33,7 @@ class NaverAPIManager{
         AF.request(baseUrl, method: .get, parameters: parameters, headers: headers)
             .validate(statusCode: 200...500)
             .responseDecodable(of: Shop.self) { response in
-                print("DEBUG:",response.request?.url?.description)
+//                print("DEBUG:",response.request?.url?.description)
                 switch response.result {
                 case .success(let value):
                     completionHandler(value)
