@@ -30,14 +30,23 @@ final class DetailViewController: BaseViewController, WKUIDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .systemBackground
+        navigationController?.navigationBar.tintColor = .label
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.standardAppearance = appearance
+        
+        navigationItem.rightBarButtonItem = likeButton
+
         
         let myURL = URL(string:urlString ?? "www.naver.com")
         let myRequest = URLRequest(url: myURL!, timeoutInterval: 5)
         webView.load(myRequest)
-        navigationItem.rightBarButtonItem = likeButton
+        
     }
     
-    //네트워크 아이템 기반으로 새로운 렘 아이템을 추가 및 삭제하게 된다.
+    //네트워크 아이템 기반으로 새로운 RealmItem 인스탄스를 생성하여 디비에 추가 및 삭제
     @objc private func likeClicked() {
         if let item{
             let realmItem = RealmItem(title: item.title, link: item.link, image: item.image, lprice: item.lprice, mallName: item.mallName, productId: item.productId)

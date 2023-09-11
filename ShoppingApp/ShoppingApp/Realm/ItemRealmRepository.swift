@@ -31,7 +31,7 @@ final class ItemRealmRepository: RealmRepository {
     
     func filteredFetch(with query: String) -> Results<RealmItem>{
         realm.objects(RealmItem.self).where {
-            return $0.title.contains(query)
+            return $0.title.contains(query, options: .caseInsensitive)
         }
     }
     

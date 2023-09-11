@@ -64,7 +64,8 @@ final class SearchViewController: BaseViewController {
 extension SearchViewController: UISearchBarDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if shop != nil{
-            searchView.collectionView.scrollToItem(at: IndexPath(item: 0, section: 0), at: .top, animated: true)
+            searchView.collectionView.scrollToItem(at: IndexPath(item: -1, section: 0), at: .top, animated: true)
+            
         }
         shop = nil
         callRequest(searchBar.text!,sortby: .similarity)
