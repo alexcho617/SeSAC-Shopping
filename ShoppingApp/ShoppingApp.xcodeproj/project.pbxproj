@@ -108,13 +108,13 @@
 			isa = PBXGroup;
 			children = (
 				57351C532AAAA2B8009A7116 /* Realm */,
-				57C6CBD92AAA06C90076D430 /* AppDelegate.swift */,
-				57C6CBDB2AAA06C90076D430 /* SceneDelegate.swift */,
 				57C6CC062AAA0DEA0076D430 /* Base */,
 				57C6CC0D2AAA10EE0076D430 /* Constants */,
 				57C6CBF12AAA0AFD0076D430 /* Network */,
 				57C6CBEE2AAA08330076D430 /* Views */,
 				57C6CBED2AAA08080076D430 /* ViewControllers */,
+				57C6CBD92AAA06C90076D430 /* AppDelegate.swift */,
+				57C6CBDB2AAA06C90076D430 /* SceneDelegate.swift */,
 				57C6CBE22AAA06CB0076D430 /* Assets.xcassets */,
 				57C6CBE42AAA06CB0076D430 /* LaunchScreen.storyboard */,
 				57C6CBE72AAA06CB0076D430 /* Info.plist */,

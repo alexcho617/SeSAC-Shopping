@@ -11,8 +11,8 @@ import Kingfisher
 import RealmSwift
 class LikeViewController: BaseViewController {
     var likeTable: Results<RealmItem>!
-
-    let searchBar = {
+    private let formatter = NumberFormatter()
+    private let searchBar = {
         let view = UISearchBar()
         view.showsCancelButton = true
         return view
@@ -46,6 +46,8 @@ class LikeViewController: BaseViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         searchBar.delegate = self
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: "ko_KR")
         
         
     }
@@ -113,14 +115,9 @@ extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ])
         cell.seller.text = "[\(data.mallName)]"
         cell.title.text = data.title.removingHTMLTags()
-        cell.price.text = data.lprice
+        cell.price.text = formatter.string(from: Double(data.lprice)! as NSNumber)
         cell.productid = data.productId
-        if ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) == true{
-            cell.like.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        }else {
-            cell.like.setImage(UIImage(systemName: "heart"), for: .normal)
-        }
-        
+        cell.like.setImage(ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) ? UIImage(systemName: "heart.fill"): UIImage(systemName: "heart") , for: .normal)
         cell.disableLike = { productId in
             ItemRealmRepository.shared.delete(targetProductId: productId)
             collectionView.reloadData()

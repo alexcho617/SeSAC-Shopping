@@ -13,6 +13,8 @@ final class SearchViewController: BaseViewController {
     private var didSearch = false
     private var resetFilterFlag = false
     private var isEndOfSearch = false
+    private let formatter = NumberFormatter()
+
     private var selectedFilter: SortEnum = .similarity{
         didSet{
             callRequest(searchView.searchBar.text!, sortby: selectedFilter)
@@ -24,7 +26,8 @@ final class SearchViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "쇼핑 검색"
-        ItemRealmRepository.shared.realmURL()
+        formatter.numberStyle = .currency
+        formatter.locale = Locale(identifier: "ko_KR")
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -140,13 +143,9 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         cell.seller.text = "[\(data.mallName)]"
         cell.title.text = data.title.removingHTMLTags()
-        cell.price.text = data.lprice
+        cell.price.text = formatter.string(from: Double(data.lprice)! as NSNumber)
         cell.item = data
-        if ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) == true{
-            cell.like.setImage(UIImage(systemName: "heart.fill"), for: .normal)
-        }else if ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) == false{
-            cell.like.setImage(UIImage(systemName: "heart"), for: .normal)
-        }
+        cell.like.setImage(ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) ? UIImage(systemName: "heart.fill"): UIImage(systemName: "heart") , for: .normal)
         return cell
     }
 }
@@ -157,7 +156,7 @@ extension SearchViewController: UICollectionViewDataSourcePrefetching{
             let row = indexPath.row
             guard shop != nil else {return}
             let count = shop!.items.count
-            if  count - 1 == row {
+            if  count - 1 == row && count < NaverAPIManager.shared.searchLimit {
                 print(#function, count)
                 callRequest(searchView.searchBar.text!, sortby: selectedFilter)
             }
@@ -165,9 +164,10 @@ extension SearchViewController: UICollectionViewDataSourcePrefetching{
     }
 }
 
-//TODO: 가격에 000단위로 쉼표 표기
 extension String {
     func removingHTMLTags() -> String {
         return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }
+    
+    
 }
