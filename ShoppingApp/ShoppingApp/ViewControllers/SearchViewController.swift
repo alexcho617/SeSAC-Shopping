@@ -28,6 +28,7 @@ final class SearchViewController: BaseViewController {
         title = "쇼핑 검색"
         formatter.numberStyle = .currency
         formatter.locale = Locale(identifier: "ko_KR")
+        ItemRealmRepository.shared.realmURL()
     }
     
     override func viewWillAppear(_ animated: Bool) {
