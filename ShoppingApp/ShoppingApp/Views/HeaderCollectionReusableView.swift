@@ -7,10 +7,10 @@
 
 import UIKit
 import SnapKit
-class HeaderCollectionReusableView: UICollectionReusableView {
-    static let id = String(describing: HeaderCollectionReusableView.self)
+
+final class HeaderCollectionReusableView: UICollectionReusableView {
     
-    //use closure for sending value
+    static let id = String(describing: HeaderCollectionReusableView.self)
     var segmentControlValueChangedHandler: ((SortEnum) -> Void)?
     
     lazy var segmentedControl: UISegmentedControl = {
@@ -21,25 +21,22 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         return view
     }()
     
-    
     @objc func segmentChanged(to segment: UISegmentedControl) {
         var sort: SortEnum?
+        
         switch segment.selectedSegmentIndex{
         case 0: sort = .similarity
-            
         case 1:
             sort = .date
-            
         case 2:
             sort = .descendingPrice
-            
         case 3:
             sort = .ascendingPrice
         default: sort = .similarity
         }
         segmentControlValueChangedHandler?(sort ?? .similarity)
-        
     }
+    
     func setView() {
         addSubview(segmentedControl)
     }
@@ -56,9 +53,8 @@ class HeaderCollectionReusableView: UICollectionReusableView {
         setView()
         setConstrants()
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
 }

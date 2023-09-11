@@ -7,14 +7,13 @@
 
 import Foundation
 import RealmSwift
+
 protocol RealmRepository: AnyObject{
     func fetch() -> Results<RealmItem>
     func create(_ item: RealmItem)
 }
-class ItemRealmRepository: RealmRepository {
-    
-    
-    
+
+final class ItemRealmRepository: RealmRepository {
     
     private let realm = try! Realm()
     private init() {}
@@ -45,19 +44,20 @@ class ItemRealmRepository: RealmRepository {
             print(error)
         }
     }
+    
     func delete(targetProductId: String) {
-//    func delete(_ item: RealmItem, target: String) {
         let item = fetch().where{
             $0.productId == targetProductId
         }
+        
+        //혹시라도 여러 레코드가 DB에 있다면 모두 삭제
         for i in item{
             try! realm.write {
                 realm.delete(i)
             }
         }
-        
-        
     }
+    
     func checkProductExistsInRealmByProductId(_ target: String) -> Bool{
         let items = fetch()
         for item in items{
@@ -67,6 +67,7 @@ class ItemRealmRepository: RealmRepository {
         }
         return false
     }
+    
     func realmURL(){
         print(realm.configuration.fileURL ?? "")
     }

@@ -8,8 +8,8 @@
 import UIKit
 
 final class LikeCollectionViewCell: BaseCollectionViewCell {
-    var productid: String?
     
+    var productid: String?
     var disableLike: ((String) -> Void)?
 
     let image = {
@@ -54,6 +54,7 @@ final class LikeCollectionViewCell: BaseCollectionViewCell {
     }()
     
     @objc private func likeClicked() {
+        //closure
         disableLike?(productid ?? "")
     }
 
@@ -65,11 +66,11 @@ final class LikeCollectionViewCell: BaseCollectionViewCell {
         contentView.addSubview(price)
         contentView.addSubview(like)
         like.addTarget(self, action: #selector(likeClicked), for: .touchUpInside)
-
     }
+    
     override func setConstraints() {
-         
         super.setConstraints()
+        
         image.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
             make.width.equalTo(snp.width)

@@ -9,7 +9,9 @@ import UIKit
 import SnapKit
 import Kingfisher
 import RealmSwift
+
 class LikeViewController: BaseViewController {
+    
     var likeTable: Results<RealmItem>!
     private let formatter = NumberFormatter()
     private let searchBar = {
@@ -38,6 +40,7 @@ class LikeViewController: BaseViewController {
         super.viewWillAppear(animated)
         collectionView.reloadData()
     }
+    
     override func setView() {
         super.setView()
         title = "좋아요"
@@ -48,12 +51,10 @@ class LikeViewController: BaseViewController {
         searchBar.delegate = self
         formatter.numberStyle = .currency
         formatter.locale = Locale(identifier: "ko_KR")
-        
-        
     }
+    
     override func setConstraints() {
         super.setConstraints()
-        
         searchBar.snp.makeConstraints { make in
             make.top.horizontalEdges.equalTo(view.safeAreaLayoutGuide)
         }
@@ -63,9 +64,6 @@ class LikeViewController: BaseViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
-    
-    
-    
 }
 
 extension LikeViewController: UISearchBarDelegate{

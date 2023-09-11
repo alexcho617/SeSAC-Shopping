@@ -7,15 +7,8 @@
 
 import UIKit
 import SnapKit
+
 final class SearchView: BaseView{
-    
-//    let titleLabel = {
-//        let view = UILabel()
-//        view.text = ViewTitles.search.rawValue
-//        view.font = .boldSystemFont(ofSize: 18)
-//        view.textAlignment = .center
-//        return view
-//    }()
     
     let placeholderLabel = {
         let view = UILabel()
@@ -32,41 +25,32 @@ final class SearchView: BaseView{
         return view
     }()
     
-    
-    
     let collectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = DesignSystem.defaultPadding
         layout.minimumInteritemSpacing = DesignSystem.defaultPadding
         layout.itemSize = CGSize(width: DesignSystem.collectionViewItemWidth, height: DesignSystem.collectionViewItemHeight)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         
+        view.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         view.register(
             HeaderCollectionReusableView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,
-            withReuseIdentifier:HeaderCollectionReusableView.id
-        )
+            withReuseIdentifier:HeaderCollectionReusableView.id)
         return view
     }()
     
     override func setView() {
         super.setView()
-//        addSubview(titleLabel)
         addSubview(searchBar)
         addSubview(collectionView)
         addSubview(placeholderLabel)
-
     }
     
     override func setConstraints() {
         super.setConstraints()
-//        titleLabel.snp.makeConstraints { make in
-//            make.top.horizontalEdges.equalTo(safeAreaLayoutGuide)
-//
-//        }
+        
         searchBar.snp.makeConstraints { make in
-//            make.top.equalTo(titleLabel.snp.bottom).offset(DesignSystem.defaultPadding)
             make.top.horizontalEdges.equalTo(safeAreaLayoutGuide)
         }
         

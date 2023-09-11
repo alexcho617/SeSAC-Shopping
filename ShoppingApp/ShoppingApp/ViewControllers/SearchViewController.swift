@@ -8,21 +8,21 @@
 import UIKit
 import Kingfisher
 import RealmSwift
+
 final class SearchViewController: BaseViewController {
+    
     private let searchView = SearchView()
     private var didSearch = false
     private var resetFilterFlag = false
     private var isEndOfSearch = false
     private let formatter = NumberFormatter()
-
     private var selectedFilter: SortEnum = .similarity{
         didSet{
             callRequest(searchView.searchBar.text!, sortby: selectedFilter)
         }
     }
-    var shop: Shop?
-    
-    
+    private var shop: Shop?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "쇼핑 검색"
@@ -57,10 +57,8 @@ final class SearchViewController: BaseViewController {
                 self.shop?.items.append(contentsOf: data.items)
             }
             self.searchView.collectionView.reloadData()
-            
         }
     }
-    
 }
 
 extension SearchViewController: UISearchBarDelegate{
@@ -70,6 +68,7 @@ extension SearchViewController: UISearchBarDelegate{
         }
         shop = nil
         callRequest(searchBar.text!,sortby: .similarity)
+        
         if selectedFilter != .similarity{
             resetFilterFlag.toggle()
         }
@@ -93,7 +92,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard kind == UICollectionView.elementKindSectionHeader, // 헤더일때
+        guard kind == UICollectionView.elementKindSectionHeader,
               let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind,withReuseIdentifier: HeaderCollectionReusableView.id,for: indexPath) as? HeaderCollectionReusableView else {return UICollectionReusableView()}
         header.setView()
         header.isHidden = didSearch ? false : true
@@ -102,6 +101,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
             resetFilterFlag.toggle()
             collectionView.reloadData()
         }
+        
         //closure
         header.segmentControlValueChangedHandler = { [self] filter in
             self.shop = nil
@@ -113,9 +113,8 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return shop?.items.count ?? 0
     }
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        print(#function, indexPath.row)
         guard let item = shop?.items[indexPath.row] else {return}
         let vc = DetailViewController()
         vc.title = item.title.removingHTMLTags()
@@ -164,10 +163,3 @@ extension SearchViewController: UICollectionViewDataSourcePrefetching{
     }
 }
 
-extension String {
-    func removingHTMLTags() -> String {
-        return self.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
-    }
-    
-    
-}

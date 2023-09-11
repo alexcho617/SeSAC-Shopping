@@ -9,7 +9,8 @@ import UIKit
 import WebKit
 import SnapKit
 
-class DetailViewController: BaseViewController, WKUIDelegate{
+final class DetailViewController: BaseViewController, WKUIDelegate{
+    
     var urlString: String?
     var id: String!
     var item: Item? //Network Item을 사용하는 이유는 이 화면에서 좋아요 기능을 위해 RealmItem 인스탄스를 따로 관리하기 때문
@@ -17,7 +18,6 @@ class DetailViewController: BaseViewController, WKUIDelegate{
         get{
             return ItemRealmRepository.shared.checkProductExistsInRealmByProductId(id)
         }
-        
     }
     private let webView = {
         let view = WKWebView()
@@ -43,22 +43,19 @@ class DetailViewController: BaseViewController, WKUIDelegate{
             let realmItem = RealmItem(title: item.title, link: item.link, image: item.image, lprice: item.lprice, mallName: item.mallName, productId: item.productId)
             let isLiked = ItemRealmRepository.shared.checkProductExistsInRealmByProductId(realmItem.productId)
             if isLiked {
-    //            print("removed from db")
                 ItemRealmRepository.shared.delete(targetProductId: realmItem.productId)
                 likeButton.image = UIImage(systemName: "heart")
             } else {
-    //            print("added to db")
                 ItemRealmRepository.shared.create(realmItem)
                 likeButton.image = UIImage(systemName: "heart.fill")            }
         }
-      
     }
 
-    
     override func setView() {
         super.setView()
         view.addSubview(webView)
     }
+    
     override func setConstraints() {
         super.setConstraints()
         webView.snp.makeConstraints { make in

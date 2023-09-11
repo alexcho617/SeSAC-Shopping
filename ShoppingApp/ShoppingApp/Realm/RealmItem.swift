@@ -4,12 +4,12 @@
 //
 //  Created by Alex Cho on 2023/09/08.
 //
-
 import Foundation
 import RealmSwift
-class RealmItem: Object {
+
+final class RealmItem: Object {
+    
     @Persisted(primaryKey: true) var _id: ObjectId
-//    @Persisted(primaryKey: true) var productId: String
     @Persisted var productId: String
     @Persisted var title: String
     @Persisted var link: String

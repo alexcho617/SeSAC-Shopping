@@ -7,8 +7,11 @@
 
 import UIKit
 import RealmSwift
+
 final class SearchCollectionViewCell: BaseCollectionViewCell {
+    
     var item: Item!
+    
     let image = {
         let view = UIImageView()
         view.backgroundColor = .systemBackground
@@ -54,11 +57,9 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
         let realmItem = RealmItem(title: item.title, link: item.link, image: item.image, lprice: item.lprice, mallName: item.mallName, productId: item.productId)
         let isLiked = ItemRealmRepository.shared.checkProductExistsInRealmByProductId(realmItem.productId)
         if isLiked {
-//            print("removed from db")
             ItemRealmRepository.shared.delete(targetProductId: realmItem.productId)
             like.setImage(UIImage(systemName: "heart"), for: .normal)
         } else {
-//            print("added to db")
             ItemRealmRepository.shared.create(realmItem)
             like.setImage(UIImage(systemName: "heart.fill"), for: .normal)
         }
@@ -72,10 +73,9 @@ final class SearchCollectionViewCell: BaseCollectionViewCell {
         contentView.addSubview(price)
         contentView.addSubview(like)
         like.addTarget(self, action: #selector(likeClicked), for: .touchUpInside)
-
     }
+    
     override func setConstraints() {
-         
         super.setConstraints()
         image.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
