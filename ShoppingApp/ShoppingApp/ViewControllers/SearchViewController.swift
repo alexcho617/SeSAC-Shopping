@@ -50,15 +50,29 @@ final class SearchViewController: BaseViewController {
     
     private func callRequest(_ query: String, sortby: SortEnum){
         NaverAPIManager.shared.fetch(query:query , sortby: sortby) { data in
-            if self.shop == nil{
-                self.shop = data
-                self.didSearch = true
-                self.searchView.placeholderLabel.isHidden = true
-            }else{
-                self.shop?.items.append(contentsOf: data.items)
+            switch data {
+            case .success(let success):
+                if self.shop == nil{
+                    self.shop = success
+                    self.didSearch = true
+                    self.searchView.placeholderLabel.isHidden = true
+                }else{
+                    self.shop?.items.append(contentsOf: success.items)
+                }
+                self.searchView.collectionView.reloadData()
+            case .failure(let failure):
+                print("DEBUG:",failure, failure.errorDescription,failure.localizedDescription)
+                self.showAlert(title: "에러", message: failure.errorDescription)
+                
             }
-            self.searchView.collectionView.reloadData()
         }
+    }
+    
+    private func showAlert(title: String, message: String){
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "확인", style: .cancel)
+        alert.addAction(cancel)
+        present(alert,animated: true)
     }
 }
 

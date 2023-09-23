@@ -16,6 +16,7 @@
 		57351C612AAB6B99009A7116 /* LikeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57351C602AAB6B99009A7116 /* LikeCollectionViewCell.swift */; };
 		57351C632AAB7CF1009A7116 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57351C622AAB7CF1009A7116 /* DetailViewController.swift */; };
 		57351C9B2AAEE934009A7116 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57351C9A2AAEE934009A7116 /* String+Extension.swift */; };
+		57ADDF762ABEC5C900EA0EFE /* NaverError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57ADDF752ABEC5C900EA0EFE /* NaverError.swift */; };
 		57C6CBDA2AAA06C90076D430 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C6CBD92AAA06C90076D430 /* AppDelegate.swift */; };
 		57C6CBDC2AAA06C90076D430 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C6CBDB2AAA06C90076D430 /* SceneDelegate.swift */; };
 		57C6CBDE2AAA06C90076D430 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C6CBDD2AAA06C90076D430 /* SearchViewController.swift */; };
@@ -47,6 +48,7 @@
 		57351C602AAB6B99009A7116 /* LikeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LikeCollectionViewCell.swift; sourceTree = "<group>"; };
 		57351C622AAB7CF1009A7116 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		57351C9A2AAEE934009A7116 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		57ADDF752ABEC5C900EA0EFE /* NaverError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaverError.swift; sourceTree = "<group>"; };
 		57C6CBD62AAA06C90076D430 /* ShoppingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShoppingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		57C6CBD92AAA06C90076D430 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57C6CBDB2AAA06C90076D430 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				57351C542AAAA2C6009A7116 /* Shop.swift */,
 				57C6CBF42AAA0B490076D430 /* APIKey.swift */,
 				57C6CBF62AAA0BE10076D430 /* HeaderEnum.swift */,
+				57ADDF752ABEC5C900EA0EFE /* NaverError.swift */,
 				57351C4E2AAA9CDE009A7116 /* NaverAPIManager.swift */,
 			);
 			path = Network;
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				57C6CC132AAA16C40076D430 /* DesignSystem.swift in Sources */,
+				57ADDF762ABEC5C900EA0EFE /* NaverError.swift in Sources */,
 				57351C9B2AAEE934009A7116 /* String+Extension.swift in Sources */,
 				57C6CC0F2AAA11180076D430 /* ViewTitles.swift in Sources */,
 				57351C592AAB0447009A7116 /* ItemRealmRepository.swift in Sources */,

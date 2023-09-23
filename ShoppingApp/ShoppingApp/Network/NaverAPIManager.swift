@@ -14,6 +14,7 @@ enum SortEnum: String{
     case descendingPrice = "dsc"
 }
 
+
 final class NaverAPIManager{
     
     static let shared = NaverAPIManager()
@@ -23,7 +24,8 @@ final class NaverAPIManager{
     private let displayLimit = 30
     private init(){}
 
-    func fetch(query: String, sortby: SortEnum, completionHandler: @escaping (Shop) -> ()) {
+    
+    func fetch(query: String, sortby: SortEnum, completionHandler: @escaping (Result<Shop, NaverError>) -> ()) {
         let headers: HTTPHeaders = [
             Headers.ClientID.rawValue: APIKey.NaverClientID.rawValue,
             Headers.ClientSecret.rawValue: APIKey.NaverClientSecret.rawValue,
@@ -34,15 +36,20 @@ final class NaverAPIManager{
             "start": "1",
             "sort": sortby.rawValue
         ]
+        
         AF.request(baseUrl, method: .get, parameters: parameters, headers: headers)
-            .validate(statusCode: 200...500)
-            .responseDecodable(of: Shop.self) { response in
-                switch response.result {
-                case .success(let value):
-                    completionHandler(value)
-                case .failure(let error):
-                    print(error)
+                .validate(statusCode: 200...500)
+                .responseDecodable(of: Shop.self) { response in
+                    switch response.result {
+                    case .success(let value):
+                        completionHandler(.success(value))
+                    case .failure(_):
+                        if let data = response.data, let naverError = try? JSONDecoder().decode(NaverError.self, from: data) {
+                            completionHandler(.failure(naverError))
+                        } else {
+                            completionHandler(.failure(NaverError.SE01))
+                        }
+                    }
                 }
-            }
     }
 }

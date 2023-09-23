@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Shop: Codable {
+struct Shop: Codable {
     let lastBuildDate: String?
     let total, start, display: Int
     var items: [Item]
@@ -17,7 +17,7 @@ final class Shop: Codable {
     }
 }
 
-final class Item: Codable {
+struct Item: Codable {
     var title: String
     var link: String
     var image: String
