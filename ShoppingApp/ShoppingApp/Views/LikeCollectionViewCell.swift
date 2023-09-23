@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import Kingfisher
 
 final class LikeCollectionViewCell: BaseCollectionViewCell {
-    
+    var item: RealmItem?
     var productid: String?
     var disableLike: ((String) -> Void)?
 
@@ -96,6 +97,26 @@ final class LikeCollectionViewCell: BaseCollectionViewCell {
             make.size.equalTo(48)
             make.trailing.bottom.equalTo(image).inset(DesignSystem.defaultPadding)
         }
+    }
+    
+    func bindData(){
+        guard let item = item else {return}
+        let processor = DownsamplingImageProcessor(size: DesignSystem.cellSize)
+        image.kf.indicatorType = .activity
+        image.kf.setImage(
+            with: URL(string: item.image),
+            placeholder: UIImage(named: "photo"),
+            options: [
+                .processor(processor),
+                .scaleFactor(UIScreen.main.scale),
+                .transition(.fade(1)),
+                .cacheOriginalImage
+            ])
+        seller.text = "[\(item.mallName)]"
+        title.text = item.title.removingHTMLTags()
+        price.text = item.lprice.currencyFormatted()
+        productid = item.productId
+        like.setImage(ItemRealmRepository.shared.checkProductExistsInRealmByProductId(item.productId) ? UIImage(systemName: "heart.fill"): UIImage(systemName: "heart") , for: .normal)
     }
 
 }

@@ -32,7 +32,7 @@ final class SearchView: BaseView{
         layout.itemSize = CGSize(width: DesignSystem.collectionViewItemWidth, height: DesignSystem.collectionViewItemHeight)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         
-        view.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        view.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: SearchCollectionViewCell.identifier)
         view.register(
             HeaderCollectionReusableView.self,
             forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader,

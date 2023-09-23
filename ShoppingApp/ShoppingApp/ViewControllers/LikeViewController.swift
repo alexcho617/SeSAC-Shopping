@@ -25,7 +25,7 @@ class LikeViewController: BaseViewController {
         layout.minimumInteritemSpacing = DesignSystem.defaultPadding
         layout.itemSize = CGSize(width: DesignSystem.collectionViewItemWidth, height: DesignSystem.collectionViewItemHeight)
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        view.register(LikeCollectionViewCell.self, forCellWithReuseIdentifier: "likeCell")
+        view.register(LikeCollectionViewCell.self, forCellWithReuseIdentifier: LikeCollectionViewCell.identifier)
         return view
     }()
     
@@ -95,24 +95,10 @@ extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "likeCell", for: indexPath) as! LikeCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCollectionViewCell.identifier, for: indexPath) as! LikeCollectionViewCell
         let data = likeTable[indexPath.row]
-        let processor = DownsamplingImageProcessor(size: DesignSystem.cellSize)
-        cell.image.kf.indicatorType = .activity
-        cell.image.kf.setImage(
-            with: URL(string: data.image),
-            placeholder: UIImage(named: "photo"),
-            options: [
-                .processor(processor),
-                .scaleFactor(UIScreen.main.scale),
-                .transition(.fade(1)),
-                .cacheOriginalImage
-            ])
-        cell.seller.text = "[\(data.mallName)]"
-        cell.title.text = data.title.removingHTMLTags()
-        cell.price.text = data.lprice.currencyFormatted()
-        cell.productid = data.productId
-        cell.like.setImage(ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) ? UIImage(systemName: "heart.fill"): UIImage(systemName: "heart") , for: .normal)
+        cell.item = data
+        cell.bindData()
         cell.disableLike = { productId in
             ItemRealmRepository.shared.delete(targetProductId: productId)
             collectionView.reloadData()

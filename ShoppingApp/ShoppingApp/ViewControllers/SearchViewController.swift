@@ -41,9 +41,6 @@ final class SearchViewController: BaseViewController {
         self.view = searchView
     }
     
-    override func setView() {
-        super.setView()
-    }
     
     private func callRequest(_ query: String, sortby: SortEnum){
         NaverAPIManager.shared.fetch(query:query , sortby: sortby) { data in
@@ -130,34 +127,15 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let item = shop?.items[indexPath.row] else {return}
         let vc = DetailViewController()
-        vc.title = item.title.removingHTMLTags()
-        vc.id = item.productId
-        vc.urlString = NaverAPIManager.shared.linkUrl+item.productId
         vc.item = item
         navigationController?.pushViewController(vc, animated: true)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! SearchCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SearchCollectionViewCell.identifier, for: indexPath) as! SearchCollectionViewCell
         guard let data = shop?.items[indexPath.row] else {return cell}
-        
-        let processor = DownsamplingImageProcessor(size: DesignSystem.cellSize)
-        cell.image.kf.indicatorType = .activity
-        cell.image.kf.setImage(
-            with: URL(string: data.image),
-            placeholder: UIImage(named: "photo"),
-            options: [
-                .processor(processor),
-                .scaleFactor(UIScreen.main.scale),
-                .transition(.fade(1)),
-                .cacheOriginalImage
-            ])
-        
-        cell.seller.text = "[\(data.mallName)]"
-        cell.title.text = data.title.removingHTMLTags()
-        cell.price.text = data.lprice.currencyFormatted()
         cell.item = data
-        cell.like.setImage(ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) ? UIImage(systemName: "heart.fill"): UIImage(systemName: "heart") , for: .normal)
+        cell.bindData()
         return cell
     }
 }

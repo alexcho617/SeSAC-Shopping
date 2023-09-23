@@ -30,6 +30,33 @@ final class DetailViewController: BaseViewController, WKUIDelegate{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setView()
+    }
+    
+    //네트워크 아이템 기반으로 새로운 RealmItem 인스탄스를 생성하여 디비에 추가 및 삭제
+    @objc private func likeClicked() {
+        if let item{
+            let realmItem = RealmItem(title: item.title, link: item.link, image: item.image, lprice: item.lprice, mallName: item.mallName, productId: item.productId)
+            
+            switch isLiked{
+            case true:
+                ItemRealmRepository.shared.delete(targetProductId: realmItem.productId)
+                likeButton.image = UIImage(systemName: "heart")
+            case false:
+                ItemRealmRepository.shared.create(realmItem)
+                likeButton.image = UIImage(systemName: "heart.fill")
+            }
+        }
+    }
+
+    override func setView() {
+        super.setView()
+        view.addSubview(webView)
+        
+        title = item?.title.removingHTMLTags()
+        id = item?.productId
+        urlString = NaverAPIManager.shared.linkUrl+(item?.productId ?? "")
+        
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .systemBackground
         navigationController?.navigationBar.tintColor = .label
@@ -38,31 +65,11 @@ final class DetailViewController: BaseViewController, WKUIDelegate{
         navigationController?.navigationBar.standardAppearance = appearance
         
         navigationItem.rightBarButtonItem = likeButton
-
+        
         
         let myURL = URL(string:urlString ?? "www.naver.com")
         let myRequest = URLRequest(url: myURL!, timeoutInterval: 5)
         webView.load(myRequest)
-        
-    }
-    
-    //네트워크 아이템 기반으로 새로운 RealmItem 인스탄스를 생성하여 디비에 추가 및 삭제
-    @objc private func likeClicked() {
-        if let item{
-            let realmItem = RealmItem(title: item.title, link: item.link, image: item.image, lprice: item.lprice, mallName: item.mallName, productId: item.productId)
-            let isLiked = ItemRealmRepository.shared.checkProductExistsInRealmByProductId(realmItem.productId)
-            if isLiked {
-                ItemRealmRepository.shared.delete(targetProductId: realmItem.productId)
-                likeButton.image = UIImage(systemName: "heart")
-            } else {
-                ItemRealmRepository.shared.create(realmItem)
-                likeButton.image = UIImage(systemName: "heart.fill")            }
-        }
-    }
-
-    override func setView() {
-        super.setView()
-        view.addSubview(webView)
     }
     
     override func setConstraints() {
@@ -71,6 +78,5 @@ final class DetailViewController: BaseViewController, WKUIDelegate{
             make.edges.equalTo(view)
         }
     }
-
 }
 
