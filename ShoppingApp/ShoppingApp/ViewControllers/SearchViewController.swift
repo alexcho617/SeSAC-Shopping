@@ -15,7 +15,6 @@ final class SearchViewController: BaseViewController {
     private var didSearch = false
     private var resetFilterFlag = false
     private var isEndOfSearch = false
-    private let formatter = NumberFormatter()
     private var selectedFilter: SortEnum = .similarity{
         didSet{
             callRequest(searchView.searchBar.text!, sortby: selectedFilter)
@@ -26,8 +25,6 @@ final class SearchViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "쇼핑 검색"
-        formatter.numberStyle = .currency
-        formatter.locale = Locale(identifier: "ko_KR")
         ItemRealmRepository.shared.realmURL()
     }
     
@@ -158,7 +155,7 @@ extension SearchViewController: UICollectionViewDelegate, UICollectionViewDataSo
         
         cell.seller.text = "[\(data.mallName)]"
         cell.title.text = data.title.removingHTMLTags()
-        cell.price.text = formatter.string(from: Double(data.lprice)! as NSNumber)
+        cell.price.text = data.lprice.currencyFormatted()
         cell.item = data
         cell.like.setImage(ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) ? UIImage(systemName: "heart.fill"): UIImage(systemName: "heart") , for: .normal)
         return cell

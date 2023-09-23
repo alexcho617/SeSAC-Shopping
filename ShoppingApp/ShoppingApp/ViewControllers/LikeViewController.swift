@@ -13,7 +13,6 @@ import RealmSwift
 class LikeViewController: BaseViewController {
     
     var likeTable: Results<RealmItem>!
-    private let formatter = NumberFormatter()
     private let searchBar = {
         let view = UISearchBar()
         view.showsCancelButton = true
@@ -49,8 +48,6 @@ class LikeViewController: BaseViewController {
         collectionView.dataSource = self
         collectionView.delegate = self
         searchBar.delegate = self
-        formatter.numberStyle = .currency
-        formatter.locale = Locale(identifier: "ko_KR")
     }
     
     override func setConstraints() {
@@ -113,7 +110,7 @@ extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSour
             ])
         cell.seller.text = "[\(data.mallName)]"
         cell.title.text = data.title.removingHTMLTags()
-        cell.price.text = formatter.string(from: Double(data.lprice)! as NSNumber)
+        cell.price.text = data.lprice.currencyFormatted()
         cell.productid = data.productId
         cell.like.setImage(ItemRealmRepository.shared.checkProductExistsInRealmByProductId(data.productId) ? UIImage(systemName: "heart.fill"): UIImage(systemName: "heart") , for: .normal)
         cell.disableLike = { productId in
