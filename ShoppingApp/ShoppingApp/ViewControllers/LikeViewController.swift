@@ -12,7 +12,8 @@ import RealmSwift
 
 class LikeViewController: BaseViewController {
     
-    var likeTable: Results<RealmItem>!
+    let vm = LikeViewModel()
+    
     private let searchBar = {
         let view = UISearchBar()
         view.showsCancelButton = true
@@ -31,8 +32,6 @@ class LikeViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "좋아요 목록"
-        likeTable = ItemRealmRepository.shared.fetch()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,12 +41,14 @@ class LikeViewController: BaseViewController {
     
     override func setView() {
         super.setView()
-        title = "좋아요"
+        title = "좋아요 목록"
         view.addSubview(searchBar)
         view.addSubview(collectionView)
         collectionView.dataSource = self
         collectionView.delegate = self
         searchBar.delegate = self
+        bindView()
+
     }
     
     override func setConstraints() {
@@ -61,54 +62,56 @@ class LikeViewController: BaseViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
     }
+    
+    private func bindView(){
+        vm.likeTable.bind { result in
+            self.collectionView.reloadData()
+        }
+    }
 }
 
 extension LikeViewController: UISearchBarDelegate{
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         if (searchBar.text != nil) && searchBar.text != ""{
-            likeTable = ItemRealmRepository.shared.filteredFetch(with: searchBar.text!)
+            vm.likeTable.value = ItemRealmRepository.shared.filteredFetch(with: searchBar.text!)
         }else{
-            likeTable = ItemRealmRepository.shared.fetch()
+            vm.likeTable.value = ItemRealmRepository.shared.fetch()
         }
-        collectionView.reloadData()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         if (searchBar.text != nil) && searchBar.text != ""{
-            likeTable = ItemRealmRepository.shared.filteredFetch(with: searchBar.text!)
+            vm.likeTable.value = ItemRealmRepository.shared.filteredFetch(with: searchBar.text!)
         }else{
-            likeTable = ItemRealmRepository.shared.fetch()
+            vm.likeTable.value = ItemRealmRepository.shared.fetch()
         }
-        collectionView.reloadData()
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = nil
         searchBar.resignFirstResponder()
-        collectionView.reloadData()
     }
 }
 
 extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        likeTable.count
+        vm.likeTable.value.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: LikeCollectionViewCell.identifier, for: indexPath) as! LikeCollectionViewCell
-        let data = likeTable[indexPath.row]
+        let data = vm.likeTable.value[indexPath.row]
         cell.item = data
         cell.bindData()
         cell.disableLike = { productId in
             ItemRealmRepository.shared.delete(targetProductId: productId)
-            collectionView.reloadData()
         }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print(#function, indexPath.row)
-        let item = likeTable[indexPath.row]
+        let item = vm.likeTable.value[indexPath.row]
         let vc = DetailViewController()
         vc.title = item.title.removingHTMLTags()
         vc.id = item.productId
