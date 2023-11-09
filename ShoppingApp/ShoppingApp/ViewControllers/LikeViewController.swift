@@ -105,6 +105,7 @@ extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.bindData()
         cell.disableLike = { productId in
             ItemRealmRepository.shared.delete(targetProductId: productId)
+            collectionView.reloadData()
         }
         return cell
     }

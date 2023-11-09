@@ -39,6 +39,9 @@
 		57C6CC0F2AAA11180076D430 /* ViewTitles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C6CC0E2AAA11180076D430 /* ViewTitles.swift */; };
 		57C6CC112AAA15800076D430 /* SearchCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C6CC102AAA15800076D430 /* SearchCollectionViewCell.swift */; };
 		57C6CC132AAA16C40076D430 /* DesignSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57C6CC122AAA16C40076D430 /* DesignSystem.swift */; };
+		57FD1FF02AFC682F0020FC7A /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 57FD1FEF2AFC682F0020FC7A /* RxDataSources */; };
+		57FD1FF32AFC6CF10020FC7A /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 57FD1FF22AFC6CF10020FC7A /* RxCocoa */; };
+		57FD1FF52AFC6CF10020FC7A /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 57FD1FF42AFC6CF10020FC7A /* RxSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,7 +84,10 @@
 				57C6CC002AAA0D330076D430 /* Kingfisher in Frameworks */,
 				57C6CBFA2AAA0D060076D430 /* Alamofire in Frameworks */,
 				57C6CC032AAA0D800076D430 /* Realm in Frameworks */,
+				57FD1FF32AFC6CF10020FC7A /* RxCocoa in Frameworks */,
+				57FD1FF02AFC682F0020FC7A /* RxDataSources in Frameworks */,
 				57C6CC052AAA0D800076D430 /* RealmSwift in Frameworks */,
+				57FD1FF52AFC6CF10020FC7A /* RxSwift in Frameworks */,
 				57C6CBFD2AAA0D1D0076D430 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -140,7 +146,6 @@
 				57ADDF822AC04DE600EA0EFE /* Helpers */,
 				57351C532AAAA2B8009A7116 /* Realm */,
 				57C6CBF12AAA0AFD0076D430 /* Network */,
-				57C6CBEE2AAA08330076D430 /* Views */,
 				57ADDF7F2AC0463E00EA0EFE /* ViewModels */,
 				57C6CBED2AAA08080076D430 /* ViewControllers */,
 				57C6CBD92AAA06C90076D430 /* AppDelegate.swift */,
@@ -158,11 +163,12 @@
 				57351C5E2AAB6255009A7116 /* LikeViewController.swift */,
 				57C6CBDD2AAA06C90076D430 /* SearchViewController.swift */,
 				57351C622AAB7CF1009A7116 /* DetailViewController.swift */,
+				57C6CBEE2AAA08330076D430 /* SupplementaryViews */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		57C6CBEE2AAA08330076D430 /* Views */ = {
+		57C6CBEE2AAA08330076D430 /* SupplementaryViews */ = {
 			isa = PBXGroup;
 			children = (
 				57C6CBEF2AAA083E0076D430 /* SearchView.swift */,
@@ -170,7 +176,7 @@
 				57351C602AAB6B99009A7116 /* LikeCollectionViewCell.swift */,
 				57351C5C2AAB31BC009A7116 /* HeaderCollectionReusableView.swift */,
 			);
-			path = Views;
+			path = SupplementaryViews;
 			sourceTree = "<group>";
 		};
 		57C6CBF12AAA0AFD0076D430 /* Network */ = {
@@ -226,6 +232,9 @@
 				57C6CBFF2AAA0D330076D430 /* Kingfisher */,
 				57C6CC022AAA0D800076D430 /* Realm */,
 				57C6CC042AAA0D800076D430 /* RealmSwift */,
+				57FD1FEF2AFC682F0020FC7A /* RxDataSources */,
+				57FD1FF22AFC6CF10020FC7A /* RxCocoa */,
+				57FD1FF42AFC6CF10020FC7A /* RxSwift */,
 			);
 			productName = ShoppingApp;
 			productReference = 57C6CBD62AAA06C90076D430 /* ShoppingApp.app */;
@@ -260,6 +269,8 @@
 				57C6CBFB2AAA0D1D0076D430 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				57C6CBFE2AAA0D330076D430 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				57C6CC012AAA0D800076D430 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				57FD1FEE2AFC682F0020FC7A /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				57FD1FF12AFC6CF10020FC7A /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = 57C6CBD72AAA06C90076D430 /* Products */;
 			projectDirPath = "";
@@ -460,7 +471,7 @@
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -494,7 +505,7 @@
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -567,6 +578,22 @@
 				kind = branch;
 			};
 		};
+		57FD1FEE2AFC682F0020FC7A /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		57FD1FF12AFC6CF10020FC7A /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 6.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -594,6 +621,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 57C6CC012AAA0D800076D430 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		57FD1FEF2AFC682F0020FC7A /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57FD1FEE2AFC682F0020FC7A /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
+		};
+		57FD1FF22AFC6CF10020FC7A /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57FD1FF12AFC6CF10020FC7A /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		57FD1FF42AFC6CF10020FC7A /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 57FD1FF12AFC6CF10020FC7A /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
