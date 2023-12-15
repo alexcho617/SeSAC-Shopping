@@ -1,7 +1,7 @@
 # SeSAC-Shopping
  ## 과제 내용
 
-Naver Open API를 사용하여 상품을 검색하고 좋아요를 관리하는 간단한 앱
+Naver Open API를 사용하여 상품을 검색하고 좋아요를 관리하며 WKWebView를 사용한 상세페이지 조회가 가능한 앱
 
 ## 실행 환경
 
