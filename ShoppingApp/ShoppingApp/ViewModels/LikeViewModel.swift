@@ -9,7 +9,7 @@ import Foundation
 import RealmSwift
 
 
-class LikeViewModel {
+final class LikeViewModel {
     var likeTable: Observable<Results<RealmItem>>
 
     init() {

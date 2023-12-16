@@ -27,7 +27,7 @@ class Observable<T> {
     func bind(_ closure: @escaping (T) -> Void) {
         closure(value)
         listener = { [weak self] newValue in
-            guard let self = self else { return }
+            guard self != nil else { return }
             closure(newValue)
         }
     }

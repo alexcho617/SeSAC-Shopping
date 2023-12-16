@@ -9,9 +9,11 @@ import UIKit
 import SnapKit
 import Kingfisher
 import RealmSwift
+import RxSwift
+import RxCocoa
 
-class LikeViewController: BaseViewController {
-    
+final class LikeViewController: BaseViewController {
+    let disposeBag = DisposeBag()
     let vm = LikeViewModel()
     
     private let searchBar = {
@@ -67,30 +69,31 @@ class LikeViewController: BaseViewController {
         vm.likeTable.bind { result in
             self.collectionView.reloadData()
         }
+        
+        searchBar.rx.text.orEmpty
+            .throttle(.milliseconds(500), scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .bind(with: self) { owner, query in
+                if query == ""{
+                    owner.vm.likeTable.value = ItemRealmRepository.shared.fetch()
+                }else{
+                    owner.vm.likeTable.value = ItemRealmRepository.shared.filteredFetch(with: query)
+                }
+            }
+            .disposed(by: disposeBag)
+        
+        
+        searchBar.rx.cancelButtonClicked
+            .bind { [self] in
+                searchBar.text = nil
+                searchBar.resignFirstResponder()
+            }
+            .disposed(by: disposeBag)
     }
 }
 
 extension LikeViewController: UISearchBarDelegate{
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if (searchBar.text != nil) && searchBar.text != ""{
-            vm.likeTable.value = ItemRealmRepository.shared.filteredFetch(with: searchBar.text!)
-        }else{
-            vm.likeTable.value = ItemRealmRepository.shared.fetch()
-        }
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        if (searchBar.text != nil) && searchBar.text != ""{
-            vm.likeTable.value = ItemRealmRepository.shared.filteredFetch(with: searchBar.text!)
-        }else{
-            vm.likeTable.value = ItemRealmRepository.shared.fetch()
-        }
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = nil
-        searchBar.resignFirstResponder()
-    }
+
 }
 
 extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSource{
