@@ -21,6 +21,7 @@ final class DetailViewController: BaseViewController, WKUIDelegate{
     }
     private let webView = {
         let view = WKWebView()
+        view.customUserAgent = "NaverShoppingApp_SeSAC"
         return view
     }()
     

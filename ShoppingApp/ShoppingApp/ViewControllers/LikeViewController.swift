@@ -13,8 +13,8 @@ import RxSwift
 import RxCocoa
 
 final class LikeViewController: BaseViewController {
-    let disposeBag = DisposeBag()
-    let vm = LikeViewModel()
+    private let disposeBag = DisposeBag()
+    private let vm = LikeViewModel()
     
     private let searchBar = {
         let view = UISearchBar()
@@ -22,7 +22,7 @@ final class LikeViewController: BaseViewController {
         return view
     }()
     
-    let collectionView = {
+    private let collectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = DesignSystem.defaultPadding
         layout.minimumInteritemSpacing = DesignSystem.defaultPadding
@@ -92,9 +92,7 @@ final class LikeViewController: BaseViewController {
     }
 }
 
-extension LikeViewController: UISearchBarDelegate{
-
-}
+extension LikeViewController: UISearchBarDelegate{}
 
 extension LikeViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
